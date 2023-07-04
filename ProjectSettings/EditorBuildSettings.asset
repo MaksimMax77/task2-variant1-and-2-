@@ -4,6 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Content/Scenes/SpaceStation.unity
+    guid: f24b596fda97b8d4e922f9f6b3919dc5
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 47a6943d38b8b0843a169c8e16730d2d, type: 2}
