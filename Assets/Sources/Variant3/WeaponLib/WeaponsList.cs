@@ -14,7 +14,6 @@ namespace Sources.Variant3.WeaponLib
       {
          public Projectile projectile;
          public float cooldown;
-         public Transform shootPos;
       }
    }
 }

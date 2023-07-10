@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Sources.Variant3.Effects
 {
@@ -8,6 +9,7 @@ namespace Sources.Variant3.Effects
 
         [SerializeField] private bool _randomScale;
         [SerializeField] private bool _randomRotation;
+        [SerializeField] private bool _inUpdate; 
 
         [SerializeField] private float _minScale; 
         [SerializeField] private float _maxScale;
@@ -18,8 +20,23 @@ namespace Sources.Variant3.Effects
         {
             _defaultScale = transform.localScale;
         }
-        
+
+        private void Update()
+        {
+            if (!_inUpdate || !isActiveAndEnabled)
+            {
+                return;
+            }
+
+            Randomize();
+        }
+
         private void OnEnable()
+        {
+            Randomize();
+        }
+
+        private void Randomize()
         {
             if (_randomScale)
             {
@@ -28,7 +45,7 @@ namespace Sources.Variant3.Effects
 
             if (_randomRotation)
             {
-                 transform.rotation *= Quaternion.Euler(0, 0, Random.Range(_minRotation, _maxRotaion));
+                transform.rotation *= Quaternion.Euler(0, 0, Random.Range(_minRotation, _maxRotaion));
             }
         }
     }

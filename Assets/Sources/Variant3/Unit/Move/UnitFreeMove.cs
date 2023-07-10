@@ -1,11 +1,12 @@
-using Sources.Variant3.Animations;
+using Sources.Variant3.Unit.Views;
 using UnityEngine;
 
 namespace Sources.Variant3.Unit.Move
 {
     public class UnitFreeMove: BaseMove
     {
-        public UnitFreeMove(AnimatorControl animatorControl, Camera camera, Transform transform) : base(animatorControl, camera, transform)
+        public UnitFreeMove( Camera camera, Transform transform, MoveView moveView) : 
+            base(camera, transform, moveView)
         {
         }
         public override void UpdateMove(float hor, float vert, Vector2 rotationDir)
@@ -17,11 +18,11 @@ namespace Sources.Variant3.Unit.Move
         {
             if (inputX != 0 || inputY != 0)
             {
-                _animatorControl.AnimateMoveForward(1);
+                _moveView.AnimateMoveForward(1);
             }
             else
             {
-                _animatorControl.AnimateMoveForward(0);
+                _moveView.AnimateMoveForward(0);
             }
         }
         private void RotationToMoveDirection(Vector2 rotateDir)

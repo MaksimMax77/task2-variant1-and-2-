@@ -1,11 +1,12 @@
-using Sources.Variant3.Animations;
+using Sources.Variant3.Unit.Views;
 using UnityEngine;
 
 namespace Sources.Variant3.Unit.Move
 {
     public class AimingMove: BaseMove
     {
-        public AimingMove(AnimatorControl animatorControl, Camera camera, Transform transform) : base(animatorControl, camera, transform)
+        public AimingMove(Camera camera, Transform transform, MoveView moveView) : 
+            base(camera, transform, moveView)
         {
         }
 
@@ -32,8 +33,8 @@ namespace Sources.Variant3.Unit.Move
             var dir = new Vector3(hor, 0, vert);
             dir.Normalize();
             var orientation = СalculateOrientation(dir.normalized, _transform.forward, _transform.right);
-            _animatorControl.AnimateMoveForward(orientation.x);
-            _animatorControl.AnimateMoveSide(orientation.z * -1);
+            _moveView.AnimateMoveForward(orientation.x);
+            _moveView.AnimateMoveSide(orientation.z * -1);
         }
 
         private Vector3 СalculateOrientation(Vector3 lhs, Vector3 z, Vector3 x)

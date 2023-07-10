@@ -10,12 +10,14 @@ namespace Sources.Variant3.WeaponLib
         private WeaponsList _weaponsList;
         private Timer _timer;
         private bool _fire;
+        
 
-        public Shooting(WeaponsList settings)
+        public Shooting(WeaponsList settings, Transform shootTransform)
         {
             _weaponsList = settings;
             SetWeapon();
             _timer = new Timer(_cooldown);
+            _shootTransform =  shootTransform;
         }
 
         public void SetWeapon(int index = 0)
@@ -23,7 +25,6 @@ namespace Sources.Variant3.WeaponLib
             var containers = _weaponsList.WeaponContainers;
             _projectie = containers[index].projectile;
             _cooldown = containers[index].cooldown;
-            _shootTransform = containers[index].shootPos;
         }
         
         public void Update()
