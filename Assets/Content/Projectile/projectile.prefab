@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400000}
+  - component: {fileID: -5345025354964086482}
+  - component: {fileID: 5818947637546268913}
   - component: {fileID: 11400002}
   - component: {fileID: 6306143238601056908}
-  - component: {fileID: 5818947637546268913}
   m_Layer: 0
   m_Name: projectile
   m_TagString: Untagged
@@ -39,6 +40,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5345025354964086482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d582da8fa0665c4babdc7bcc0441ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5818947637546268913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e80c23e6353be64b9202f82b311d4a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 50
+  _destroyTime: 3
+  _pooledObject: {fileID: -5345025354964086482}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,6 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _randomScale: 1
   _randomRotation: 1
+  _inUpdate: 0
   _minScale: 1
   _maxScale: 3
   _minRotation: -360
@@ -70,20 +99,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1, z: 2.68}
   m_Center: {x: 0, y: 0, z: 1.39}
---- !u!114 &5818947637546268913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e80c23e6353be64b9202f82b311d4a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 50
-  _destroyTime: 3
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

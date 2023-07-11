@@ -1,6 +1,7 @@
 using System;
 using Sources.System;
 using Sources.Variant3.InputControl;
+using Sources.Variant3.ObjectPoolSpace;
 using Sources.Variant3.PrefabsCreation;
 using Sources.Variant3.Unit.Move;
 using Sources.Variant3.Unit.Views;
@@ -25,7 +26,7 @@ namespace Sources.Variant3.Unit
         private Vector2 _rotationDir;
 
         [Inject]
-        public void Init(Updater updater, UnitCreation unitCreation, MobileInputHandler inputHandler, WeaponsList weaponsList)
+        public void Init(Updater updater, UnitCreation unitCreation, MobileInputHandler inputHandler, WeaponsList weaponsList, ObjectPoolsManager objectPoolsManager)
         {
             _inputHandler = inputHandler;
             updater.AddUpdate(this);
@@ -36,7 +37,7 @@ namespace Sources.Variant3.Unit
             _unitFreeMove = new UnitFreeMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveView);
             _aimingMove = new AimingMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveView);
             _baseMove = _unitFreeMove;
-            _shooting = new Shooting(weaponsList, _shootingView.ShootingPos);
+            _shooting = new Shooting(weaponsList, _shootingView.ShootingPos, objectPoolsManager);
             
             _inputHandler.MovePerformed += OnMoveInput;
             _inputHandler.RotationPerformed += OnRotationPerformed;
@@ -45,7 +46,7 @@ namespace Sources.Variant3.Unit
             _inputHandler.RollPerformed += _moveView.SetRollAnim;
             _inputHandler.FirePerformed += _shooting.OnFirePerformed;
         }
-
+        
         public void Dispose()
         {
             _inputHandler.MovePerformed -= OnMoveInput;

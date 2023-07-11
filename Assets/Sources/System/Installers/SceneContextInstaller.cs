@@ -1,5 +1,6 @@
 using Sources.Variant1;
 using Sources.Variant3.InputControl;
+using Sources.Variant3.ObjectPoolSpace;
 using Sources.Variant3.PrefabsCreation;
 using Sources.Variant3.Unit;
 using Sources.Variant3.WeaponLib;
@@ -15,12 +16,14 @@ namespace Sources.System.Installers
         [SerializeField] private UnitCreation _unitCreation;
         [SerializeField] private PlayerInput _input;
         [SerializeField] private WeaponsList _weaponsList;
+        [SerializeField] private ObjectPoolsManager _objectPoolsManager;
         public override void InstallBindings()
         {
             Container.BindInstance(_updater).AsSingle().NonLazy();
             Container.BindInstance(_unitCreation).AsSingle().NonLazy();
             Container.BindInstance(_input).AsSingle().NonLazy();
             Container.BindInstance(_weaponsList).AsSingle().NonLazy();
+            Container.BindInstance(_objectPoolsManager).AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<MobileInputHandler>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Unit>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ClickOnInteractiveObject>().AsSingle().NonLazy();

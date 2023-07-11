@@ -1,3 +1,4 @@
+using Sources.Variant3.ObjectPoolSpace;
 using UnityEngine;
 
 namespace Sources.Variant3.WeaponLib
@@ -6,6 +7,7 @@ namespace Sources.Variant3.WeaponLib
      {
           [SerializeField] private float _speed;
           [SerializeField] private float _destroyTime;
+          [SerializeField] private PooledObject _pooledObject;
           private Timer _timer;
 
           private void Awake()
@@ -22,7 +24,12 @@ namespace Sources.Variant3.WeaponLib
                {
                    return;
                }
-               Destroy(gameObject);
+               _pooledObject.ReturnObjectToPool();
+          }
+
+          private void OnDisable()
+          {
+               _timer.TimerZero();
           }
      }
 }

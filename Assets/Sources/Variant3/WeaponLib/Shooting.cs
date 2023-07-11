@@ -1,3 +1,4 @@
+using Sources.Variant3.ObjectPoolSpace;
 using UnityEngine;
 
 namespace Sources.Variant3.WeaponLib
@@ -10,10 +11,12 @@ namespace Sources.Variant3.WeaponLib
         private WeaponsList _weaponsList;
         private Timer _timer;
         private bool _fire;
+        private ObjectPool _objectPool;
         
 
-        public Shooting(WeaponsList settings, Transform shootTransform)
+        public Shooting(WeaponsList settings, Transform shootTransform, ObjectPoolsManager objectPoolsManager)
         {
+            _objectPool = objectPoolsManager.GetPoolByObjectPoolType(ObjectPoolType.standardBulletsPool);
             _weaponsList = settings;
             SetWeapon();
             _timer = new Timer(_cooldown);
@@ -34,9 +37,14 @@ namespace Sources.Variant3.WeaponLib
                 return;
             }
             _timer.UpdateTimer();
+            
             if (_timer.available)
             {
-                Object.Instantiate(_projectie, _shootTransform.position, _shootTransform.rotation);
+                var createdObj = _objectPool.GetObject();
+                createdObj.transform.position = _shootTransform.position;
+                createdObj.transform.rotation = _shootTransform.rotation;
+                createdObj.gameObject.SetActive(true);
+                /*Object.Instantiate(_projectie, _shootTransform.position, _shootTransform.rotation);*/
                 _timer.TimerZero();
             }
         }
