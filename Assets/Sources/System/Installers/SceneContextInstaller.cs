@@ -2,6 +2,7 @@ using Sources.Variant1;
 using Sources.Variant3.InputControl;
 using Sources.Variant3.ObjectPoolSpace;
 using Sources.Variant3.PrefabsCreation;
+using Sources.Variant3.SceneSibling;
 using Sources.Variant3.Unit;
 using Sources.Variant3.WeaponLib;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Sources.System.Installers
         [SerializeField] private ObjectPoolsManager _objectPoolsManager;
         public override void InstallBindings()
         {
+            Container.Bind<RootObjectsCreator>().AsSingle().NonLazy();
             Container.BindInstance(_updater).AsSingle().NonLazy();
             Container.BindInstance(_unitCreation).AsSingle().NonLazy();
             Container.BindInstance(_input).AsSingle().NonLazy();

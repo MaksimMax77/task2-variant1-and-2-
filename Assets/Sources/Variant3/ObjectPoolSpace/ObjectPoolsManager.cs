@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sources.Variant3.SceneSibling;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +10,17 @@ namespace Sources.Variant3.ObjectPoolSpace
     {
         [SerializeField] private List<ObjectPoolContainer> _containers = new List<ObjectPoolContainer>();
 
-        [SerializeField] private Transform _disabledObjectsParent;
-        [SerializeField] private Transform _enabledObjectsParent;
-
         [Inject]
-        public void Init()
+        public void Init(RootObjectsCreator rootObjectsCreator)
         {
+            var root = rootObjectsCreator.AddNewObjectToRoot(nameof(ObjectPoolsManager));
+            
             for (int i = 0, len = _containers.Count; i < len; ++i)
             {
-                _containers[i].Init(_disabledObjectsParent, _enabledObjectsParent);
+                var poolRoot = rootObjectsCreator.CreateGameObjectWithChild(_containers[i].PoolName, "disabled", "enabled");
+                poolRoot.transform.SetParent(root.transform);
+                
+                _containers[i].Init( poolRoot.transform.GetChild(0).transform, poolRoot.transform.GetChild(1).transform);
             }
         }
         public ObjectPool GetPoolByObjectPoolType(ObjectPoolType objectPoolType)
@@ -48,6 +51,7 @@ namespace Sources.Variant3.ObjectPoolSpace
 
             private ObjectPool _objectPool;
             public ObjectPool ObjectPool => _objectPool;
+            public string PoolName => _poolName;
             public ObjectPoolType ObjectPoolType => _objectPoolType;
             public void Init(Transform pooled, Transform enabled)
             {
