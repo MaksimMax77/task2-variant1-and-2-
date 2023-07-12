@@ -1,7 +1,7 @@
 using Sources.Variant3.ObjectPoolSpace;
 using UnityEngine;
 
-namespace Sources.Variant3.WeaponLib
+namespace Sources.Variant3.WeaponSystem
 {
      public class Projectile : MonoBehaviour
      {

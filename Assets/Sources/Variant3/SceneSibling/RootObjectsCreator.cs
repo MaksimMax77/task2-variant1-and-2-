@@ -5,6 +5,7 @@ namespace Sources.Variant3.SceneSibling
 {
     public class RootObjectsCreator
     {
+        private const string _newGameObjectRootName = "new_game_objects";
         private GameObject _rootObj;
 
         public GameObject RootObj => _rootObj;
@@ -12,7 +13,7 @@ namespace Sources.Variant3.SceneSibling
         [Inject]
         public void Create()
         {
-            _rootObj = CreateObj("new_game_objects");
+            _rootObj = CreateObj(_newGameObjectRootName);
         }
 
         public GameObject AddNewObjectToRoot(string name)
@@ -22,11 +23,6 @@ namespace Sources.Variant3.SceneSibling
             return obj;
         }
         
-        public GameObject CreateObj(string name)
-        {
-            return new GameObject(name);
-        }
-
         public GameObject CreateGameObjectWithChild(string rootName, params string[] childNames)
         {
             var root = CreateObj(rootName);
@@ -37,6 +33,11 @@ namespace Sources.Variant3.SceneSibling
             }
 
             return root;
+        }
+        
+        private GameObject CreateObj(string name)
+        {
+            return new GameObject(name);
         }
     }
 }

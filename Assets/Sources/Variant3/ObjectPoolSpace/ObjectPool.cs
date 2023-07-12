@@ -31,7 +31,7 @@ namespace Sources.Variant3.ObjectPoolSpace
             }
         }
         
-        public Component GetObject()
+        public PooledObject GetObject()
         {
             if (_pooledObjects.Count == 0)
             {

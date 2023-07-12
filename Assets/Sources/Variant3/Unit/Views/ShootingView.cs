@@ -7,16 +7,11 @@ namespace Sources.Variant3.Unit.Views
         [SerializeField] private string _shootTransitionName; 
         [SerializeField] private string _aimingName;
         [SerializeField] private Animator _animator;
-        [SerializeField] private GameObject _effect;
-        [SerializeField] private Transform _shootingPos;
 
-        public Transform ShootingPos => _shootingPos;
-
-        public void Visualize(bool value)
+        public void Animate(bool value)
         {
             AimingPose(value);
             ShootingAnimation(value);
-            _effect.SetActive(value);
         }
 
         private void ShootingAnimation(bool value)
