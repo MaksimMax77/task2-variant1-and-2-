@@ -13,7 +13,7 @@ namespace Sources.Variant3.Unit
 {
     public class Unit: IDisposable, IUpdate
     {
-        private MobileInputHandler _inputHandler;
+        private InputHandler _inputHandler;
 
         private ShootingView _shootingView;
         private MoveView _moveView;
@@ -26,7 +26,7 @@ namespace Sources.Variant3.Unit
         private Vector2 _rotationDir;
 
         [Inject]
-        public void Init(Updater updater, UnitCreation unitCreation, MobileInputHandler inputHandler, ObjectPoolsManager objectPoolsManager)
+        public void Init(Updater updater, UnitCreation unitCreation, InputHandler inputHandler, ObjectPoolsManager objectPoolsManager)
         {
             _inputHandler = inputHandler;
             updater.AddUpdate(this);

@@ -154,53 +154,6 @@ Transform:
   m_Father: {fileID: 911743222}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &49918656
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 49918657}
-  - component: {fileID: 49918658}
-  m_Layer: 0
-  m_Name: Weapons
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &49918657
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49918656}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1476754714}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &49918658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49918656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21b38cfb6b3a96a4398c3cdf31f9b611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weaponsContainers:
-  - projectile: {fileID: 5818947637546268913, guid: e496166a742ada640b89650ebebbd052, type: 3}
-    cooldown: 0.11
 --- !u!23 &109845349
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1180,7 +1133,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1476754714}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &290936396
 MonoBehaviour:
@@ -3291,7 +3244,6 @@ MonoBehaviour:
   _updater: {fileID: 1440445549}
   _unitCreation: {fileID: 1880506821}
   _input: {fileID: 338865891}
-  _weaponsList: {fileID: 49918658}
   _objectPoolsManager: {fileID: 290936396}
 --- !u!114 &1240473299
 MonoBehaviour:
@@ -3914,7 +3866,6 @@ Transform:
   - {fileID: 1880506820}
   - {fileID: 1440445548}
   - {fileID: 338865890}
-  - {fileID: 49918657}
   - {fileID: 290936395}
   m_Father: {fileID: 0}
   m_RootOrder: 0

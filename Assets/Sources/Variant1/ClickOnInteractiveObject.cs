@@ -8,11 +8,11 @@ namespace Sources.Variant1
 {
     public class ClickOnInteractiveObject: IDisposable
     {
-        private MobileInputHandler _inputHandler;
+        private InputHandler _inputHandler;
         private Camera _camera;
     
         [Inject]
-        public void Init(MobileInputHandler inputHandler, UnitCreation unitCreation)
+        public void Init(InputHandler inputHandler, UnitCreation unitCreation)
         {
             _inputHandler = inputHandler;
             _camera = unitCreation.CreatedCamera.Camera;
