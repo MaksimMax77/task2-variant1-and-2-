@@ -1,4 +1,5 @@
 using Sources.Variant3.ObjectPoolSpace;
+using UnityEngine.InputSystem;
 
 namespace Sources.Variant3.WeaponSystem
 {
@@ -25,12 +26,17 @@ namespace Sources.Variant3.WeaponSystem
             _currentWeapon.Attack();
         }
         
-        public void OnFirePerformed(bool attack)
+        public void OnFirePerformed(InputAction.CallbackContext context)
         {
-            _fire = attack;
+            _fire = true;
         }
 
-        public void OnNextWeaponClick()
+        public void OnFireCanceled(InputAction.CallbackContext context)
+        {
+            _fire = false;
+        }
+
+        public void OnNextWeaponClick(InputAction.CallbackContext context)
         {
             _currentWeapon = _weaponList.NextWeapon();
         }

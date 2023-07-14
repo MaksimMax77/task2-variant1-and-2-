@@ -5,24 +5,24 @@ namespace Sources.Variant3.Unit.Move
 {
     public class UnitFreeMove: BaseMove
     {
-        public UnitFreeMove( Camera camera, Transform transform, MoveView moveView) : 
-            base(camera, transform, moveView)
+        public UnitFreeMove( Camera camera, Transform transform, MoveAnimate moveAnimate) : 
+            base(camera, transform, moveAnimate)
         {
         }
-        public override void UpdateMove(float hor, float vert, Vector2 rotationDir)
+        public override void UpdateMove()
         {
-            Move(hor, vert);
-            RotationToMoveDirection(new Vector2(hor, vert));
+            Move(_inputDir.x, _inputDir.y);
+            RotationToMoveDirection(new Vector2(_inputDir.x, _inputDir.y));
         }
         private void Move(float inputX, float inputY)
         {
             if (inputX != 0 || inputY != 0)
             {
-                _moveView.AnimateMoveForward(1);
+                MoveAnimate.AnimateMoveForward(1);
             }
             else
             {
-                _moveView.AnimateMoveForward(0);
+                MoveAnimate.AnimateMoveForward(0);
             }
         }
         private void RotationToMoveDirection(Vector2 rotateDir)

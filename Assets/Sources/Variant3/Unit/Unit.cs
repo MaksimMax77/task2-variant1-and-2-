@@ -1,84 +1,122 @@
 using System;
 using Sources.System;
-using Sources.Variant3.InputControl;
 using Sources.Variant3.ObjectPoolSpace;
 using Sources.Variant3.PrefabsCreation;
 using Sources.Variant3.Unit.Move;
 using Sources.Variant3.Unit.Views;
 using Sources.Variant3.WeaponSystem;
-using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Sources.Variant3.Unit
 {
     public class Unit: IDisposable, IUpdate
     {
-        private InputHandler _inputHandler;
+        private InputActions _input;
 
-        private ShootingView _shootingView;
-        private MoveView _moveView;
+        private ShootingAnimate _shootingAnimate;
+        private MoveAnimate _moveAnimate;
 
         private UnitFreeMove _unitFreeMove;
         private AimingMove _aimingMove;
         private BaseMove _baseMove;
         private WeaponControl _weaponControl;
-        private Vector3 _inputDir;
-        private Vector2 _rotationDir;
 
         [Inject]
-        public void Init(Updater updater, UnitCreation unitCreation, InputHandler inputHandler, ObjectPoolsManager objectPoolsManager)
+        public void Init(Updater updater, UnitCreation unitCreation, InputActions input, ObjectPoolsManager objectPoolsManager)
         {
-            _inputHandler = inputHandler;
+            _input = input;
             updater.AddUpdate(this);
             
-            _shootingView = unitCreation.CreatedObject.GetComponent<ShootingView>();
-            _moveView = unitCreation.CreatedObject.GetComponent<MoveView>();
+            _shootingAnimate = unitCreation.CreatedObject.GetComponent<ShootingAnimate>();
+            _moveAnimate = unitCreation.CreatedObject.GetComponent<MoveAnimate>();
             var weaponsList = unitCreation.CreatedObject.GetComponent<WeaponList>();
             
-            _unitFreeMove = new UnitFreeMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveView);
-            _aimingMove = new AimingMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveView);
+            _unitFreeMove = new UnitFreeMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveAnimate);
+            _aimingMove = new AimingMove(unitCreation.CreatedCamera.Camera,  unitCreation.CreatedObject.transform, _moveAnimate);
             _baseMove = _unitFreeMove;
             _weaponControl = new WeaponControl(weaponsList, objectPoolsManager);
+
+            _input.Enable();
             
-            _inputHandler.MovePerformed += OnMoveInput;
-            _inputHandler.RotationPerformed += OnRotationPerformed;
-            _inputHandler.FirePerformed += OnFireClick;
-            _inputHandler.FirePerformed += _shootingView.Animate;
-            _inputHandler.RollPerformed += _moveView.SetRollAnim;
-            _inputHandler.FirePerformed += _weaponControl.OnFirePerformed;
-            _inputHandler.NextWeaponPerformed += _weaponControl.OnNextWeaponClick;
+            MoveSubscribeOnInputActions();
+            SubscribeOnFireInputActions();
+            _input.Gamepad.Roll.performed +=  _moveAnimate.SetRollAnim;
+            _input.Gamepad.NextWeapon.performed +=  _weaponControl.OnNextWeaponClick;
         }
         
         public void Dispose()
         {
-            _inputHandler.MovePerformed -= OnMoveInput;
-            _inputHandler.RotationPerformed -= OnRotationPerformed;
-            _inputHandler.FirePerformed -= OnFireClick;
-            _inputHandler.FirePerformed -= _shootingView.Animate;
-            _inputHandler.RollPerformed -= _moveView.SetRollAnim;
-            _inputHandler.FirePerformed -= _weaponControl.OnFirePerformed;
-            _inputHandler.NextWeaponPerformed -= _weaponControl.OnNextWeaponClick;
+            MoveUnSubscribeFromInputActions();
+            UnSubscribeFromFireInputActions();
+            
+            _input.Gamepad.Roll.performed -=  _moveAnimate.SetRollAnim;
+            _input.Gamepad.NextWeapon.performed -=  _weaponControl.OnNextWeaponClick;
+            
+            _input.Disable();
         }
         
         public void Update()
         {
-            _baseMove.UpdateMove(_inputDir.x, _inputDir.y, _rotationDir);
+            _baseMove.UpdateMove();
             _weaponControl.Update();
         }
 
-        private void OnMoveInput(Vector2 inputDir)
+        private void OnFireClick(InputAction.CallbackContext context)
         {
-            _inputDir =inputDir;
-        }
-
-        private void OnRotationPerformed(Vector2 rotationDir)
-        {
-            _rotationDir = rotationDir;
+            SetMove(true);
         }
         
-        private void OnFireClick(bool fire)
+        private void OnFireCanceled(InputAction.CallbackContext context)
         {
-            _baseMove = fire ? _aimingMove : _unitFreeMove;
+            SetMove(false);
         }
-    }
+
+        private void SetMove(bool value)
+        {
+            MoveUnSubscribeFromInputActions();
+
+            _baseMove = value ? _aimingMove : _unitFreeMove;
+
+            MoveSubscribeOnInputActions();
+        }
+        
+        private void MoveSubscribeOnInputActions()
+        {
+            _input.Gamepad.Move.performed += _baseMove.OnMovePerformed;
+            _input.Gamepad.Move.canceled += _baseMove.OnMovePerformed;
+            
+            _input.Gamepad.Rotation.performed += _baseMove.OnRotatePerformed;
+            _input.Gamepad.Rotation.canceled += _baseMove.OnRotatePerformed;
+        }
+        
+        private void MoveUnSubscribeFromInputActions()
+        {
+            _input.Gamepad.Move.performed += _baseMove.OnMovePerformed;
+            _input.Gamepad.Move.canceled += _baseMove.OnMovePerformed;
+            
+            _input.Gamepad.Rotation.performed += _baseMove.OnRotatePerformed;
+            _input.Gamepad.Rotation.canceled += _baseMove.OnRotatePerformed;
+        }
+
+        private void SubscribeOnFireInputActions()
+        {
+            _input.Gamepad.Fire.performed += _weaponControl.OnFirePerformed;
+            _input.Gamepad.Fire.canceled += _weaponControl.OnFireCanceled;
+            _input.Gamepad.Fire.performed += _shootingAnimate.OnFirePerformed;
+            _input.Gamepad.Fire.canceled += _shootingAnimate.OnFireCanceled;
+            _input.Gamepad.Fire.performed += OnFireClick;
+            _input.Gamepad.Fire.canceled += OnFireCanceled;;
+        }
+        
+        private void UnSubscribeFromFireInputActions()
+        {
+            _input.Gamepad.Fire.performed -= _weaponControl.OnFirePerformed;
+            _input.Gamepad.Fire.canceled -= _weaponControl.OnFireCanceled;
+            _input.Gamepad.Fire.performed -= _shootingAnimate.OnFirePerformed;
+            _input.Gamepad.Fire.canceled -= _shootingAnimate.OnFireCanceled;
+            _input.Gamepad.Fire.performed -= OnFireClick;
+            _input.Gamepad.Fire.canceled -= OnFireCanceled;
+        }
+    } 
 }

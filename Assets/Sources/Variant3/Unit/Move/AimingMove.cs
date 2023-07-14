@@ -5,17 +5,17 @@ namespace Sources.Variant3.Unit.Move
 {
     public class AimingMove: BaseMove
     {
-        public AimingMove(Camera camera, Transform transform, MoveView moveView) : 
-            base(camera, transform, moveView)
+        public AimingMove(Camera camera, Transform transform, MoveAnimate moveAnimate) : 
+            base(camera, transform, moveAnimate)
         {
         }
 
-        public override void UpdateMove(float hor, float vert, Vector2 rotation)
+        public override void UpdateMove()
         {
-            AnimateMove(hor, vert);
-            Rotate(rotation);
+            AnimateMove(_inputDir.x, _inputDir.z);
+            Rotate(_rotateDir);
         }
-
+        
         private void Rotate(Vector2 rotateDir)
         {
             var angleA = 0f;
@@ -33,8 +33,8 @@ namespace Sources.Variant3.Unit.Move
             var dir = new Vector3(hor, 0, vert);
             dir.Normalize();
             var orientation = СalculateOrientation(dir.normalized, _transform.forward, _transform.right);
-            _moveView.AnimateMoveForward(orientation.x);
-            _moveView.AnimateMoveSide(orientation.z * -1);
+            MoveAnimate.AnimateMoveForward(orientation.x);
+            MoveAnimate.AnimateMoveSide(orientation.z * -1);
         }
 
         private Vector3 СalculateOrientation(Vector3 lhs, Vector3 z, Vector3 x)

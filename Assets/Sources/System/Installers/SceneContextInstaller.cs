@@ -1,5 +1,4 @@
 using Sources.Variant1;
-using Sources.Variant3.InputControl;
 using Sources.Variant3.ObjectPoolSpace;
 using Sources.Variant3.PrefabsCreation;
 using Sources.Variant3.SceneSibling;
@@ -22,7 +21,6 @@ namespace Sources.System.Installers
             Container.BindInstance(_unitCreation).AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<InputActions>().AsSingle().NonLazy();
             Container.BindInstance(_objectPoolsManager).AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<Unit>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ClickOnInteractiveObject>().AsSingle().NonLazy();
         }

@@ -1,32 +1,32 @@
 using System;
-using Sources.Variant3.InputControl;
 using Sources.Variant3.PrefabsCreation;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Sources.Variant1
 {
     public class ClickOnInteractiveObject: IDisposable
     {
-        private InputHandler _inputHandler;
         private Camera _camera;
+        private InputActions _inputActions;
     
         [Inject]
-        public void Init(InputHandler inputHandler, UnitCreation unitCreation)
+        public void Init(InputActions inputActions, UnitCreation unitCreation)
         {
-            _inputHandler = inputHandler;
+            _inputActions = inputActions;
             _camera = unitCreation.CreatedCamera.Camera;
-            _inputHandler.TouchPerformed += OnClick;
+            _inputActions.Gamepad.Tap.performed += OnClick;
         }
     
         public void Dispose()
         {
-            _inputHandler.TouchPerformed -= OnClick;
+            _inputActions.Gamepad.Tap.performed -= OnClick;
         }
     
-        private void OnClick(Vector2 clickPos)
+        private void OnClick(InputAction.CallbackContext context)
         {
-            if (!Physics.Raycast(_camera.ScreenPointToRay(clickPos), out var hit, 100))
+            if (!Physics.Raycast(_camera.ScreenPointToRay(context.ReadValue<Vector2>()), out var hit, 100))
             {
                 return;
             }

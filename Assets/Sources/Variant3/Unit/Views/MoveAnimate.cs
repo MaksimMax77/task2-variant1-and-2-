@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Sources.Variant3.Unit.Views
 {
-    public class MoveView : MonoBehaviour
+    public class MoveAnimate : MonoBehaviour
     {
         [SerializeField] private string _moveForwardTag;
         [SerializeField] private string _moveSideTag;
@@ -19,7 +20,7 @@ namespace Sources.Variant3.Unit.Views
             _animator.SetFloat(_moveSideTag, value);
         }
     
-        public void SetRollAnim()
+        public void SetRollAnim(InputAction.CallbackContext context)
         {
             _animator.SetTrigger(_rollTag);
         }
