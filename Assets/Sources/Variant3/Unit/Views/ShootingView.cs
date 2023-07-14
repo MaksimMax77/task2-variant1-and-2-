@@ -16,14 +16,7 @@ namespace Sources.Variant3.Unit.Views
 
         private void ShootingAnimation(bool value)
         {
-            if (value)
-            {
-                _animator.SetTrigger(_shootTransitionName);
-            }
-            else
-            {
-                _animator.ResetTrigger(_shootTransitionName);
-            }
+            _animator.SetBool(_shootTransitionName, value);
         }
     
         private void AimingPose(bool value)
