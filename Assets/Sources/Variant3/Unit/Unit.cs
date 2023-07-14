@@ -92,11 +92,11 @@ namespace Sources.Variant3.Unit
         
         private void MoveUnSubscribeFromInputActions()
         {
-            _input.Gamepad.Move.performed += _baseMove.OnMovePerformed;
-            _input.Gamepad.Move.canceled += _baseMove.OnMovePerformed;
+            _input.Gamepad.Move.performed -= _baseMove.OnMovePerformed;
+            _input.Gamepad.Move.canceled -= _baseMove.OnMovePerformed;
             
-            _input.Gamepad.Rotation.performed += _baseMove.OnRotatePerformed;
-            _input.Gamepad.Rotation.canceled += _baseMove.OnRotatePerformed;
+            _input.Gamepad.Rotation.performed -= _baseMove.OnRotatePerformed;
+            _input.Gamepad.Rotation.canceled -= _baseMove.OnRotatePerformed;
         }
 
         private void SubscribeOnFireInputActions()
